@@ -4,9 +4,9 @@ import { Platform } from 'react-native';
 
 import { HapticTab } from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { Image, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { House, DoorOpen, CalendarDays, UserRoundPen, SquarePlus } from 'lucide-react-native';
 
 const styles = StyleSheet.create({
 });
@@ -24,7 +24,6 @@ export default function TabLayout() {
         tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
           ios: {
-            // Use a transparent background on iOS to show the blur effect
             position: 'absolute',
           },
           default: {},
@@ -34,56 +33,35 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ size, focused, color }) => {
-            return (
-              <Image
-                style={{ width: size, height: size, tintColor: focused ? '#FFAE00' : '#D9D9D9' }}
-                source={require('../../assets/images/Vector.png')}
-              />
-            );
-          },
+          tabBarIcon: ({ color }) => <House size={24} color={color} />
         }}
       />
       <Tabs.Screen
         name="explore"
         options={{
           title: 'Gateway',
-          tabBarIcon: ({ size, focused, color }) => {
-            return (
-              <Image
-                style={{ width: size, height: size }}
-                source={require('../../assets/images/messages1.png')}
-              />
-            );
-          },
+          tabBarIcon: ({ color }) => <DoorOpen size={24} color={color} />
+        }}
+      />
+      <Tabs.Screen
+        name="addnew"
+        options={{
+          title: '',
+          tabBarIcon: ({ color }) => <SquarePlus size={32} color={'#FFAE00'} />
         }}
       />
       <Tabs.Screen
         name="button"
         options={{
           title: 'New Button',
-          tabBarIcon: ({ size, focused, color }) => {
-            return (
-              <Image
-                style={{ width: size, height: size }}
-                source={require('../../assets/images/calendar.png')}
-              />
-            );
-          },
+          tabBarIcon: ({ color }) => <CalendarDays  size={24} color={color} />
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: 'Profile',
-          tabBarIcon: ({ size, focused, color }) => {
-            return (
-              <Image
-                style={{ width: size, height: size }}
-                source={require('../../assets/images/profile.png')}
-              />
-            );
-          },
+          tabBarIcon: ({ color }) => <UserRoundPen  size={24} color={color} />
         }}
       />
     </Tabs>

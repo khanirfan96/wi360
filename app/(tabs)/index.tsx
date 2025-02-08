@@ -1,24 +1,28 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { Image, StyleSheet, Text } from 'react-native';
+// import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { View } from 'react-native-reanimated/lib/typescript/Animated';
 
 export default function HomeScreen() {
   return (
-    <>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="defaultSemiBold">Hi in Index page</ThemedText>.
-      </ThemedView>
-    </>
+    <ThemedView style={styles.titleContainer}>
+     <Text style={styles.text}>Hey Hii to Index Page</Text>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+    backgroundColor: '#1E1E1E',
+    flex: 1
+  },
+  round:{
+    width:200,
+    height:200
+  },
+  text:{
+    color:'white'
   },
   stepContainer: {
     gap: 8,

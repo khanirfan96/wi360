@@ -1,9 +1,9 @@
 import { StyleSheet, View } from 'react-native';
 
-export default function GatewayScreen() {
+export default function AddNew() {
   return (
     <View>
-  
+     
     </View>
   );
 }
