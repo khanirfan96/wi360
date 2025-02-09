@@ -1,4 +1,5 @@
 import React from 'react';
+import BackButton from '../components/BackButton';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { router } from 'expo-router';
 import { ArrowLeft, Edit2, LogOut, Phone, Mail, User, Smartphone } from 'lucide-react-native';
@@ -14,7 +15,7 @@ export default function ProfileScreen() {
      {/* Header */}
      <View style={styles.header}>
        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-         <ArrowLeft color="white" size={24} />
+       <BackButton onPress={() => router.back()} />
          <Text style={styles.headerTitle}>Profile</Text>
        </TouchableOpacity>
      </View>

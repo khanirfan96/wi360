@@ -12,12 +12,14 @@ import {
     View,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleLogin = async () => {
         if (!email || !password) {
@@ -36,7 +38,8 @@ export default function SignIn() {
             });
 
             const data = await response.json();
-            // console.log('Data:', data);
+            console.log('Data:', data);
+            console.log('response:', response);
 
             if (response.ok === true && response.status === 200) {
                 Toast.show({ type: 'success', text1: '', text2: data.message || 'Login Successfully' });
@@ -88,9 +91,18 @@ export default function SignIn() {
                         placeholderTextColor="#666"
                         value={password}
                         onChangeText={setPassword}
-                        secureTextEntry
+                        secureTextEntry={!showPassword}
                     />
-                    <Lock size={20} color="#666" />
+                    <TouchableOpacity 
+                        style={styles.eyeIcon}
+                        onPress={() => setShowPassword(!showPassword)}
+                    >
+                        <Ionicons 
+                            name={showPassword ? "eye-outline" : "eye-off-outline"} 
+                            size={24} 
+                            color="#666" 
+                        />
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.rememberContainer}>
@@ -147,14 +159,15 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         paddingHorizontal: 20,
         height: 50,
-        marginTop: 10
+        marginTop: 10,
+        width: '90%',
     },
     input: {
+        flex: 1,
         backgroundColor: '#333',
         borderRadius: 8,
         padding: 15,
         color: 'white',
-        width: '100%',
     },
     rememberContainer: {
         flexDirection: 'row',
@@ -203,5 +216,11 @@ const styles = StyleSheet.create({
     },
     loginButtonDisabled: {
         opacity: 0.7,
+    },
+    eyeIcon: {
+        position: 'absolute',
+        right: 15,
+        top: '50%',
+        transform: [{ translateY: -12 }],
     },
 });
