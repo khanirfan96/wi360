@@ -1,9 +1,5 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform } from 'react-native';
-
-import { HapticTab } from '@/components/HapticTab';
-import TabBarBackground from '@/components/ui/TabBarBackground';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { StyleSheet } from 'react-native';
 import { House, DoorOpen, CalendarDays, UserRoundPen, SquarePlus } from 'lucide-react-native';
@@ -21,6 +17,7 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: '#252525',
           borderTopWidth: 0,
+          height:60
         },
         tabBarActiveTintColor: '#FFAE00',
         tabBarInactiveTintColor: '#fff',

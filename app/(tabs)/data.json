@@ -1,0 +1,22 @@
+{
+    "devices": [
+      { 
+        "name": "Decentlab Strain",
+        "type": "Sensor",
+        "selected": true,
+        "image": "../../assets/images/device-1.png"
+      },
+      {
+        "name": "Dragino Jojo Tank",
+        "type": "Sensor", 
+        "selected": false,
+        "image": "../../assets/images/device-1.png"
+      },
+      {
+        "name": "Nasys Water Meter",
+        "type": "Metromatic WS II",
+        "selected": false,
+        "image": "../../assets/images/device-1.png"
+      }
+    ]
+  }

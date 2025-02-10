@@ -7,6 +7,7 @@ export default function GatewayScreen() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: '',
+    gateId: '',
     description: '',
     latitude: '',
     longitude: '',
@@ -16,6 +17,7 @@ export default function GatewayScreen() {
   const handleReset = () => {
     setFormData({
       name: '',
+      gateId: '',
       description: '',
       latitude: '',
       longitude: '',
@@ -24,52 +26,58 @@ export default function GatewayScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.maincontainer}>
       <View style={styles.header}>
         <View style={styles.headerLeft}>
           <BackButton onPress={() => router.back()} />
           <Text style={styles.headerTitle}>Add Gateway</Text>
         </View>
       </View>
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.infoText}>
+          If you have a LoRaWAN compatible device not showing here, please mail{' '}
+          <Text style={styles.link}>support@wi360.net</Text> with device details then we can add it to the system.
+        </Text>
 
-      <View style={styles.form}>
-        <View style={styles.inputRow}>
-          <View style={styles.inputContainer}>
+
+        <View style={styles.formRow}>
+          <View style={styles.inputWrap}>
             <Text style={styles.label}>Gateway Name</Text>
             <TextInput
               style={styles.input}
-              placeholder="Name"
+              placeholder="Gateway Name"
               placeholderTextColor="#666"
               value={formData.name}
               onChangeText={(text) => setFormData({ ...formData, name: text })}
             />
           </View>
-          <View style={styles.inputContainer}>
+
+          <View style={styles.inputWrap}>
             <Text style={styles.label}>Gateway ID</Text>
             <TextInput
-              style={[styles.input, styles.disabledInput]}
+              style={styles.input}
               placeholder="----------------"
               placeholderTextColor="#666"
-              editable={false}
+              value={formData.gateId}
+              onChangeText={(text) => setFormData({ ...formData, gateId: text })}
             />
-            <Text style={styles.helperText}>Gateway ID can be found on a sticker on the AP or in the device config.</Text>
+            <Text style={styles.helperText}>DevEUI can be found on the device or in the provided leaflet.</Text>
           </View>
         </View>
 
-        <View style={styles.inputContainer}>
+        <View >
           <Text style={styles.label}>Description</Text>
           <TextInput
-            style={[styles.input, styles.textArea]}
-            placeholder="Description ....."
+            style={styles.input}
+            placeholder="Description"
             placeholderTextColor="#666"
-            multiline
             value={formData.description}
             onChangeText={(text) => setFormData({ ...formData, description: text })}
           />
         </View>
 
-        <View style={styles.inputRow}>
-          <View style={styles.inputContainer}>
+        <View style={styles.formRow}>
+          <View style={styles.inputWrap}>
             <Text style={styles.label}>Latitude</Text>
             <TextInput
               style={styles.input}
@@ -80,7 +88,8 @@ export default function GatewayScreen() {
               keyboardType="numeric"
             />
           </View>
-          <View style={styles.inputContainer}>
+
+          <View style={styles.inputWrap}>
             <Text style={styles.label}>Longitude</Text>
             <TextInput
               style={styles.input}
@@ -93,42 +102,33 @@ export default function GatewayScreen() {
           </View>
         </View>
 
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Altitude</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="0.00,000"
-            placeholderTextColor="#666"
-            value={formData.altitude}
-            onChangeText={(text) => setFormData({ ...formData, altitude: text })}
-            keyboardType="numeric"
-          />
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.addButton}>
+            <Text style={styles.addButtonText}>Add Device</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.resetButton} onPress={handleReset}>
+            <Text style={styles.resetButtonText}>Reset</Text>
+          </TouchableOpacity>
         </View>
-      </View>
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.addButton}>
-          <Text style={styles.addButtonText}>Add Device</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.resetButton} onPress={handleReset}>
-          <Text style={styles.resetButtonText}>Reset</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  maincontainer: {
     flex: 1,
     backgroundColor: '#1A1A1A',
+  },
+  container: {
+    paddingHorizontal: 16,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: '#333',
+    padding: 6
   },
   headerLeft: {
     flexDirection: 'row',
@@ -138,17 +138,21 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#FFFFFF',
-    marginLeft: 16,
   },
-  form: {
-    padding: 16,
+  infoText: {
+    color: '#AAAAAA',
+    fontSize: 14,
+    marginVertical: 10,
   },
-  inputRow: {
+  link: {
+    color: '#FFB800',
+  },
+  formRow: {
     flexDirection: 'row',
     gap: 16,
-    marginBottom: 20,
+    marginVertical: 16,
   },
-  inputContainer: {
+  inputWrap: {
     flex: 1,
   },
   label: {
@@ -164,23 +168,38 @@ const styles = StyleSheet.create({
     fontSize: 14,
     height: 40,
   },
+  helperText: {
+    color: '#666',
+    fontSize: 8,
+    marginTop: 6,
+  },
+  form: {
+    padding: 16,
+  },
+  inputRow: {
+    flexDirection: 'row',
+    gap: 16,
+    marginBottom: 20,
+  },
+  inputContainer: {
+    flex: 1,
+  },
   disabledInput: {
     backgroundColor: '#1A1A1A',
     color: '#666666',
-  },
-  helperText: {
-    color: '#666666',
-    fontSize: 11,
-    marginTop: 4,
   },
   textArea: {
     height: 80,
     textAlignVertical: 'top',
   },
   buttonContainer: {
-    padding: 16,
-    gap: 12,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 12,
     marginTop: 'auto',
+    gap: 180,
   },
   addButton: {
     backgroundColor: '#FFB800',
