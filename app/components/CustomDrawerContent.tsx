@@ -29,7 +29,7 @@ export default function CustomDrawerContent(props: any) {
       <DrawerContentScrollView {...props} style={styles.scrollView}>
         <TouchableOpacity 
           style={[styles.drawerItem, props.state.index === 0 && styles.activeItem]} 
-          onPress={() => router.push('/(tabs)')}
+          onPress={() => router.push('/addeddevice')}
         >
           <Ionicons 
             name="phone-portrait-outline" 
@@ -43,18 +43,18 @@ export default function CustomDrawerContent(props: any) {
           style={styles.drawerItem} 
           onPress={() => router.push('/explore')}
         >
-          <Ionicons name="grid-outline" size={24} color="#0066FF" />
+          <Ionicons name="grid-outline" size={24} color="#FFAE00" />
           <Text style={styles.drawerLabel}>Gateway</Text>
 
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.drawerItem}>
-          <Ionicons name="phone-portrait-outline" size={24} color="#0066FF" />
-          <Text style={styles.drawerLabel}>New Button</Text>
+          <Ionicons name="phone-portrait-outline" size={24} color="#FFAE00" />
+          <Text style={styles.drawerLabel}>Added Devices</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.drawerItem}>
-          <Ionicons name="phone-portrait-outline" size={24} color="#0066FF" />
+          <Ionicons name="phone-portrait-outline" size={24} color="#FFAE00" />
           <Text style={styles.drawerLabel}>New Button</Text>
         </TouchableOpacity>
       </DrawerContentScrollView>

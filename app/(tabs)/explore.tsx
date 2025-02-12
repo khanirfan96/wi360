@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import BackButton from '../components/BackButton';
 import { useRouter } from 'expo-router';
+import TabBar from '../components/TabBar';
 
 export default function GatewayScreen() {
   const router = useRouter();
@@ -111,6 +112,7 @@ export default function GatewayScreen() {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
+      <TabBar />
     </View>
   );
 }
@@ -122,6 +124,7 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingHorizontal: 16,
+    flex:1
   },
   header: {
     flexDirection: 'row',

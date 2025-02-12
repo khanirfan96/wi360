@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { Drawer } from 'expo-router/drawer';
 import CustomDrawerContent from './components/CustomDrawerContent';
-import Header from './header';
+import Header from './components/Header';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -31,14 +31,6 @@ export default function RootLayout() {
   }
 
   return (
-    // <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-    //   <Stack initialRouteName="signin">
-    //     <Stack.Screen name="signin" options={{ headerShown: false }} />
-    //     <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    //     <Stack.Screen name="+not-found" />
-    //   </Stack>
-    //   <StatusBar style="auto" />
-    // </ThemeProvider>
     <Drawer
       screenOptions={({ route }) => ({
         header: () => <Header />,

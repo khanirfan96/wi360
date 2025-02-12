@@ -1,21 +1,21 @@
 import React from 'react';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { useNavigation } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
+import { Menu } from 'lucide-react-native';
 
 export default function Header() {
     const navigation = useNavigation();
 
     return (
         <View style={styles.header}>
-            <TouchableOpacity onPress={() => {
-                // @ts-ignore
-                navigation.openDrawer();
-            }}>
-                <Ionicons name="menu" size={30} color="#fff" />
+            <TouchableOpacity 
+                onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+            >
+                <Menu size={36} color="#FFFFFF" />
             </TouchableOpacity>
-            <Image 
-                source={require('../../assets/images/header-logo.png')} 
+            
+            <Image
+                source={require('../../assets/images/header-logo.png')}
                 style={styles.logo}
                 resizeMode="contain"
             />
@@ -26,15 +26,16 @@ export default function Header() {
 const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
-        alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: '#1a1a1a',
-        padding: 16,
-        height: 60,
+        alignItems: 'center',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        backgroundColor: '#1A1A1A',
+        borderBottomWidth: 1,
+        borderBottomColor: '#333333',  // Dark gray border to match the theme
     },
     logo: {
         height: 40,
-        width: 200,
-        marginLeft: 30,
+        width: 100,
     },
 });

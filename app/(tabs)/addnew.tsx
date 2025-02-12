@@ -1,18 +1,25 @@
 import React, { useState } from 'react';
+import { ImageSourcePropType } from 'react-native';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import BackButton from '../components/BackButton';
 import { useRouter } from 'expo-router';
 import data from './data.json';
+import TabBar from '../components/TabBar';
 
 type Device = {
   name: string;
   type: string;
   selected: boolean;
-  image: string; 
+  imageId: number;  // Changed from imageId to image to match your JSON
 }
-
 interface DeviceData {
   devices: Device[];
+}
+
+type DeviceImageMap = {
+  'device-1': ImageSourcePropType;
+  'device-2': ImageSourcePropType;
+  'device-3': ImageSourcePropType;
 }
 
 export default function AddNew() {
@@ -35,6 +42,19 @@ export default function AddNew() {
       latitude: '',
       longitude: '',
     });
+  };
+
+  const getDeviceImage = (imageId: number) => {
+    switch (imageId) {
+      case 1:
+        return require('../../assets/images/device-1.png');
+      case 2:
+        return require('../../assets/images/device-2.png');
+      case 3:
+        return require('../../assets/images/device-3.png');
+      default:
+        return require('../../assets/images/device-1.png'); // default image
+    }
   };
 
   return (
@@ -64,7 +84,7 @@ export default function AddNew() {
                 <View style={styles.radioCircle}>
                   {selectedDevice === device.name && <View style={styles.selectedCircle} />}
                 </View>
-                <Image source={{ uri: device.image }}  style={styles.deviceImage} />
+                <Image source={getDeviceImage(device.imageId)} style={styles.deviceImage} />
                 <View>
                   <Text style={styles.deviceName}>{device.name}</Text>
                   <Text style={styles.deviceType}>{device.type}</Text>
@@ -150,6 +170,7 @@ export default function AddNew() {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      <TabBar />
     </View>
   );
 }

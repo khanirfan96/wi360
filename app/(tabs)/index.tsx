@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal } from 'react-native';
 import { MessageSquare, Smartphone, X, ArrowLeft, Search } from 'lucide-react-native';
 import BackButton from '../components/BackButton';
+import TabBar from '../components/TabBar';
 
 // Add these interfaces near the top of the file
 interface Message {
@@ -21,12 +22,18 @@ export default function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);
 
   const messages = [
-    { id: 1, deviceId: '24e124535e176260', date: '29 Oct 2023', size: '329.4 MB', 
-      content: '{ "_id": {"$id": "679f8079bbb47319f1d35b377"}, "cdr": true, "data": "AXVd", "tcnt": 6153, "host": 85, "devEUI": "24e124535e176260", "ok"}' },
-    { id: 2, deviceId: '24e124535e176260', date: '29 Oct 2023', size: '329.4 MB', 
-      content: '{ "_id": {"$id": "679f8079bbb47319f1d35b377"}, "cdr": true, "data": "AXVd", "tcnt": 6153, "host": 85, "devEUI": "24e124535e176260", "ok"}' },
-    { id: 3, deviceId: '24e124535e176260', date: '29 Oct 2023', size: '329.4 MB', 
-      content: 'dr: true, "data": "AXVd", "tcnt": 6153, "host": 85, "devEUI": "24e124535e176260", "ok"}' },
+    {
+      id: 1, deviceId: '24e124535e176260', date: '29 Oct 2023', size: '329.4 MB',
+      content: '{ "_id": {"$id": "679f8079bbb47319f1d35b377"}, "cdr": true, "data": "AXVd", "tcnt": 6153, "host": 85, "devEUI": "24e124535e176260", "ok"}'
+    },
+    {
+      id: 2, deviceId: '24e124535e176260', date: '29 Oct 2023', size: '329.4 MB',
+      content: '{ "_id": {"$id": "679f8079bbb47319f1d35b377"}, "cdr": true, "data": "AXVd", "tcnt": 6153, "host": 85, "devEUI": "24e124535e176260", "ok"}'
+    },
+    {
+      id: 3, deviceId: '24e124535e176260', date: '29 Oct 2023', size: '329.4 MB',
+      content: 'dr: true, "data": "AXVd", "tcnt": 6153, "host": 85, "devEUI": "24e124535e176260", "ok"}'
+    },
   ];
 
   const MessageList = ({ data, isModal = false }: MessageListProps) => (
@@ -44,74 +51,77 @@ export default function HomeScreen() {
   );
 
   return (
-    <ScrollView style={styles.container}>
-      {/* Overview Section */}
-      <Text style={styles.sectionTitle}>Overview</Text>
-      <View style={styles.overviewContainer}>
-        <View style={styles.statsCard}>
-          <MessageSquare size={24} color="#0066FF" />
-          <Text style={styles.statsNumber}>1,94,988</Text>
-          <Text style={styles.statsDescription}>Total Messages From All Your Devices.</Text>
-        </View>
-        
-        <View style={styles.statsCard}>
-          <Smartphone size={24} color="#0066FF" />
-          <Text style={styles.statsNumber}>23</Text>
-          <Text style={styles.statsDescription}>Devices On The Network</Text>
-        </View>
-      </View>
+    <View style={styles.container}>
+      <ScrollView style={styles.scrollContainer}>
+        <Text style={styles.sectionTitle}>Overview</Text>
+        <View style={styles.overviewContainer}>
+          <View style={styles.statsCard}>
+            <MessageSquare size={24} color="#0066FF" />
+            <Text style={styles.statsNumber}>1,94,988</Text>
+            <Text style={styles.statsDescription}>Total Messages From All Your Devices.</Text>
+          </View>
 
-      {/* Device Map Section */}
-      <View style={styles.mapSection}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Device map</Text>
-          <TouchableOpacity>
-            <Text style={styles.linkText}>Location →</Text>
-          </TouchableOpacity>
+          <View style={styles.statsCard}>
+            <Smartphone size={24} color="#0066FF" />
+            <Text style={styles.statsNumber}>23</Text>
+            <Text style={styles.statsDescription}>Devices On The Network</Text>
+          </View>
         </View>
-        <View style={styles.mapContainer}>
-          <Text style={styles.mapPlaceholder}>Map</Text>
-        </View>
-      </View>
 
-      {/* Recent Messages Section */}
-      <View style={styles.messagesSection}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Recent Messages</Text>
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
-            <Text style={styles.linkText}>View More →</Text>
-          </TouchableOpacity>
-        </View>
-        
-        <MessageList data={messages.slice(0, 3)} />
-      </View>
-
-      {/* Messages Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalView}>
-          <View style={styles.modalHeader}>
-            <View style={styles.modalHeaderLeft}>
-              <BackButton onPress={() => setModalVisible(false)} />
-              <Text style={styles.modalTitle}>Recent Messages</Text>
-            </View>
+        {/* Device Map Section */}
+        <View style={styles.mapSection}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Device map</Text>
             <TouchableOpacity>
-              <Search color="#FFFFFF" size={24} />
+              <Text style={styles.linkText}>Location →</Text>
             </TouchableOpacity>
           </View>
-          <ScrollView 
-            style={styles.modalContent}
-            showsVerticalScrollIndicator={false}
-          >
-            <MessageList data={messages} isModal={true} />
-          </ScrollView>
+          <View style={styles.mapContainer}>
+            <Text style={styles.mapPlaceholder}>Map</Text>
+          </View>
         </View>
-      </Modal>
-    </ScrollView>
+
+        {/* Recent Messages Section */}
+        <View style={styles.messagesSection}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Recent Messages</Text>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <Text style={styles.linkText}>View More →</Text>
+            </TouchableOpacity>
+          </View>
+
+          <MessageList data={messages.slice(0, 3)} />
+        </View>
+
+        {/* Messages Modal */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalView}>
+            <View style={styles.modalHeader}>
+              <View style={styles.modalHeaderLeft}>
+                <BackButton onPress={() => setModalVisible(false)} />
+                <Text style={styles.modalTitle}>Recent Messages</Text>
+              </View>
+              <TouchableOpacity>
+                <Search color="#FFFFFF" size={24} />
+              </TouchableOpacity>
+            </View>
+            <ScrollView
+              style={styles.modalContent}
+              showsVerticalScrollIndicator={false}
+            >
+              <MessageList data={messages} isModal={true} />
+            </ScrollView>
+          </View>
+        </Modal>
+      </ScrollView>
+      <TabBar />
+    </View>
+
   );
 }
 
@@ -119,6 +129,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1A1A1A',
+  },
+  scrollContainer:{
     padding: 16,
   },
   sectionTitle: {
@@ -184,7 +196,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#CBCBCB',
-    marginHorizontal: -16,
     paddingHorizontal: 16,
   },
   messageCard: {
@@ -215,12 +226,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#1E1E1E',
     flex: 1
   },
-  round:{
-    width:200,
-    height:200
+  round: {
+    width: 200,
+    height: 200
   },
-  text:{
-    color:'white'
+  text: {
+    color: 'white'
   },
   stepContainer: {
     gap: 8,
