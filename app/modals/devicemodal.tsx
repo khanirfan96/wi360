@@ -88,7 +88,7 @@ const DeviceControlModal = ({ visible, onClose }: { visible: any, onClose: any }
                     </View>
                 </View>
             </View>
-        </Modal>
+        </Modal> 
     );
 };
 

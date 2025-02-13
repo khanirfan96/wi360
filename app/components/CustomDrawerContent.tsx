@@ -1,67 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-import { SmartphoneNfc } from 'lucide-react-native';
-
+import { SmartphoneNfc, TvMinimal, AudioLines, MapPinned, LogOut } from 'lucide-react-native';
+import useAuth from '../context/AuthContext';
 export default function CustomDrawerContent(props: any) {
   const router = useRouter();
+  const [activeItem, setActiveItem] = useState('dashboard');
+  const { logout } = useAuth();
 
-  const handleLogout = () => {
-    // Add your logout logic here
-    router.replace('/signin');
+  const handleLogout = async () => {
+    await logout()
+  }
+
+  const handleItemPress = (route: any, itemName: string) => {
+    setActiveItem(itemName);
+    router.push(route);
   };
 
   return (
     <View style={styles.container}>
-      {/* Logo Section */}
-      <View style={styles.logoContainer}>
-        <Image
-          source={require('../../assets/images/drawer-logo.png')}
-          style={styles.logo}
-          resizeMode="contain"
-        />
 
+      <View style={styles.logoContainer}>
+        <Image source={require('../../assets/images/drawer-logo.png')} style={styles.logo} resizeMode="contain" />
       </View>
 
       {/* Drawer Items */}
       <DrawerContentScrollView {...props} style={styles.scrollView}>
-        <TouchableOpacity 
-          style={[styles.drawerItem, props.state.index === 0 && styles.activeItem]} 
-          onPress={() => router.push('/addeddevice')}
-        >
-          <Ionicons 
-            name="phone-portrait-outline" 
-            size={24} 
-            color={props.state.index === 0 ? '#0066FF' : '#0066FF'} 
-          />
-          <Text style={[styles.drawerLabel, props.state.index === 0 && styles.activeLabel]}>Home</Text>
+        <TouchableOpacity style={[styles.drawerItem, activeItem === 'dashboard' && styles.activeItem]}
+          onPress={() => handleItemPress('/(tabs)', 'dashboard')}>
+          <TvMinimal size={24} color={activeItem === 'dashboard' ? '#0066FF' : '#FFAE00'} />
+          <Text style={[styles.drawerLabel, activeItem === 'dashboard' && styles.activeLabel]}>Dashboard</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
-          style={styles.drawerItem} 
-          onPress={() => router.push('/explore')}
-        >
-          <Ionicons name="grid-outline" size={24} color="#FFAE00" />
-          <Text style={styles.drawerLabel}>Gateway</Text>
-
+        <TouchableOpacity style={[styles.drawerItem, activeItem === 'newButton' && styles.activeItem]}
+          onPress={() => handleItemPress('/explore', 'newButton')}>
+          <AudioLines size={24} color={activeItem === 'newButton' ? '#0066FF' : '#FFAE00'} />
+          <Text style={[styles.drawerLabel, activeItem === 'newButton' && styles.activeLabel]}>New Button</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.drawerItem}>
-          <Ionicons name="phone-portrait-outline" size={24} color="#FFAE00" />
-          <Text style={styles.drawerLabel}>Added Devices</Text>
+        <TouchableOpacity style={[styles.drawerItem, activeItem === 'devices' && styles.activeItem]}
+          onPress={() => handleItemPress('/addeddevice', 'devices')}>
+          <SmartphoneNfc size={24} color={activeItem === 'devices' ? '#0066FF' : '#FFAE00'} />
+          <Text style={[styles.drawerLabel, activeItem === 'devices' && styles.activeLabel]}>Devices</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.drawerItem}>
-          <Ionicons name="phone-portrait-outline" size={24} color="#FFAE00" />
-          <Text style={styles.drawerLabel}>New Button</Text>
+        <TouchableOpacity style={[styles.drawerItem, activeItem === 'gateways' && styles.activeItem]}
+          onPress={() => handleItemPress('/gateways', 'gateways')}>
+          <MapPinned size={24} color={activeItem === 'gateways' ? '#0066FF' : '#FFAE00'} />
+          <Text style={[styles.drawerLabel, activeItem === 'gateways' && styles.activeLabel]}>Gateways</Text>
         </TouchableOpacity>
       </DrawerContentScrollView>
 
       {/* Logout Button */}
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-        <Ionicons name="log-out-outline" size={24} color="#FF3B30" />
+        <LogOut size={24} color="#FF3B30" />
         <Text style={styles.logoutText}>Log Out</Text>
       </TouchableOpacity>
     </View>
@@ -91,7 +84,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 15,
     marginVertical: 5,
-    marginHorizontal: 10,
     borderRadius: 10,
     backgroundColor: '#2A2A2A',
   },
@@ -115,11 +107,11 @@ const styles = StyleSheet.create({
     color: '#FF3B30',
   },
   activeItem: {
-    backgroundColor: '#FFFFFF',  // White background
+    backgroundColor: '#FFFFFF', 
     borderLeftWidth: 3,
-    borderLeftColor: '#FFFFFF',  // Changed to white border
+    borderRadius: 10, 
   },
   activeLabel: {
-    color: '#0066FF',  // Blue text for active item
+    color: '#0066FF', 
   },
 }); 

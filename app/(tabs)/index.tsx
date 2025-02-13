@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   overviewContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 24,
+    marginVertical:10
   },
   statsCard: {
     backgroundColor: '#252525',
@@ -169,8 +169,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
-    marginTop: 8,
+    marginVertical:10
   },
   linkText: {
     color: '#0066FF',

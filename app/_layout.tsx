@@ -1,13 +1,11 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Drawer } from 'expo-router/drawer';
 import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-import { Drawer } from 'expo-router/drawer';
 import CustomDrawerContent from './components/CustomDrawerContent';
 import Header from './components/Header';
+import { AuthProvider } from './context/AuthContext';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -31,32 +29,20 @@ export default function RootLayout() {
   }
 
   return (
-    <Drawer
-      screenOptions={({ route }) => ({
-        header: () => <Header />,
-        headerShown: route.name !== 'signin',
-        drawerStyle: {
-          backgroundColor: '#1a1a1a',
-          width: 280,
-        },
-      })}
-      drawerContent={(props) => <CustomDrawerContent {...props} />}
-    >
-      <Drawer.Screen
-        name="(tabs)"
-        options={{
-          drawerLabel: "Home",
-          title: "Home"
-        }}
-      />
-      <Drawer.Screen
-        name="gateway"
-        options={{
-          drawerLabel: "Gateway",
-          title: "Gateway"
-        }}
-      />
-      {/* Add more drawer screens as needed */}
-    </Drawer>
+    <AuthProvider>
+      <Drawer
+        screenOptions={({ route }) => ({
+          header: () => <Header />,
+          headerShown: route.name !== 'signin',
+          drawerStyle: {
+            backgroundColor: '#1a1a1a',
+            width: 280,
+          },
+        })}
+        drawerContent={(props) => <CustomDrawerContent {...props} />}
+      >
+      </Drawer>
+    </AuthProvider>
+
   );
 }

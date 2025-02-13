@@ -1,10 +1,9 @@
+import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { Lock, Mail } from 'lucide-react-native';
+import { Mail } from 'lucide-react-native';
 import React, { useState } from 'react';
 import {
-    ActivityIndicator,
-    Image,
-    SafeAreaView,
+    ActivityIndicator, Image, SafeAreaView,
     StyleSheet,
     Text,
     TextInput,
@@ -12,64 +11,29 @@ import {
     View,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
-import { Ionicons } from '@expo/vector-icons';
+import useAuth from './context/AuthContext';
 
 export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
-    const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const { login, loading } = useAuth();
 
     const handleLogin = async () => {
         if (!email || !password) {
-            Toast.show({ type: 'error', text1: 'Error', text2: 'Please enter both email and password'});
+            Toast.show({type: 'error', text1: 'Error', text2: 'Please enter both email and password'});
             return;
         }
-        setLoading(true);
-        try {
-            const response = await fetch('https://io.wi360.net:16900/api/auth', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username: email, password: password }),
-            });
-
-            const data = await response.json();
-            console.log('Data:', data);
-            console.log('response:', response);
-
-            if (response.ok === true && response.status === 200) {
-                Toast.show({ type: 'success', text1: '', text2: data.message || 'Login Successfully' });
-                router.replace('/(tabs)');
-            } else {
-                Toast.show({ type: 'error', text1: 'Error', text2: data.message || 'Invalid credentials' });
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            Toast.show({ type: 'error', text1: 'Error', text2: 'Network error. Please check your connection.' });
-        } finally {
-            setLoading(false);
-        }
+        await login(email, password);   
     };
 
     return (
         <SafeAreaView style={styles.container}>
             <Toast />
-            <Image
-                source={require('../assets/images/round.png')}
-                style={styles.round}
-                resizeMode="contain"
-            />
+            <Image source={require('../assets/images/round.png')} style={styles.round} resizeMode="contain" />
             <View style={styles.content}>
-
-                <Image
-                    source={require('../assets/images/Major-logo.png')}
-                    style={styles.logo}
-                    resizeMode="contain"
-                />
+                <Image source={require('../assets/images/Major-logo.png')} style={styles.logo} resizeMode="contain" />
 
                 <View style={styles.inputContainer}>
                     <TextInput
@@ -93,23 +57,17 @@ export default function SignIn() {
                         onChangeText={setPassword}
                         secureTextEntry={!showPassword}
                     />
-                    <TouchableOpacity 
-                        style={styles.eyeIcon}
-                        onPress={() => setShowPassword(!showPassword)}
-                    >
-                        <Ionicons 
-                            name={showPassword ? "eye-outline" : "eye-off-outline"} 
-                            size={24} 
-                            color="#666" 
+                    <TouchableOpacity style={styles.eyeIcon} onPress={() => setShowPassword(!showPassword)}>
+                        <Ionicons
+                            name={showPassword ? "eye-outline" : "eye-off-outline"}
+                            size={24}
+                            color="#666"
                         />
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.rememberContainer}>
-                    <TouchableOpacity
-                        style={styles.rememberMe}
-                        onPress={() => setRememberMe(!rememberMe)}
-                    >
+                    <TouchableOpacity style={styles.rememberMe} onPress={() => setRememberMe(!rememberMe)}>
                         <View style={styles.checkbox}>
                             {rememberMe && <View style={styles.checked} />}
                         </View>

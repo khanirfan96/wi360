@@ -4,11 +4,21 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-na
 import { router } from 'expo-router';
 import { ArrowLeft, Edit2, LogOut, Phone, Mail, User, Smartphone } from 'lucide-react-native';
 import TabBar from '../components/TabBar';
+import useAuth from '../context/AuthContext';
+import { UserDataItem } from '../types/profile';
+
+interface UserDataResponse {
+  userData: UserDataItem[];
+}
+
 
 export default function ProfileScreen() {
 
-  const handleLogout = () => {
-    router.replace('/signin');
+  const { userData, logout } = useAuth();
+  const userInfo = userData?.userData[0];
+
+  const handleLogout = async() => {
+    await logout();
   };
 
   return (
@@ -26,8 +36,8 @@ export default function ProfileScreen() {
         <View style={styles.profileCard}>
           <View style={styles.avatar} />
           <View style={styles.profileInfo}>
-            <Text style={styles.profileName}>Palguna Suggu</Text>
-            <Text style={styles.profileEmail}>Palguna@gmail.com</Text>
+            <Text style={styles.profileName}>{userInfo.usrName}</Text>
+            <Text style={styles.profileEmail}>{userInfo.usrEmail}</Text>
           </View>
         </View>
 
@@ -38,7 +48,7 @@ export default function ProfileScreen() {
               <User size={20} color="#4A90E2" />
               <View style={styles.detailTexts}>
                 <Text style={styles.detailLabel}>Full Name</Text>
-                <Text style={styles.detailValue}>Palguna Suggu</Text>
+                <Text style={styles.detailValue}>{userInfo.usrName}</Text>
               </View>
             </View>
             <Edit2 size={16} color="#666" />
@@ -49,7 +59,7 @@ export default function ProfileScreen() {
               <Mail size={20} color="#4A90E2" />
               <View style={styles.detailTexts}>
                 <Text style={styles.detailLabel}>Email</Text>
-                <Text style={styles.detailValue}>palguna@gmail.com</Text>
+                <Text style={styles.detailValue}>{userInfo.usrEmail}</Text>
               </View>
             </View>
             <Edit2 size={16} color="#666" />
@@ -60,7 +70,7 @@ export default function ProfileScreen() {
               <Phone size={20} color="#4A90E2" />
               <View style={styles.detailTexts}>
                 <Text style={styles.detailLabel}>Phone Number</Text>
-                <Text style={styles.detailValue}>408-841-0928</Text>
+                <Text style={styles.detailValue}>{userInfo.usrNo}</Text>
               </View>
             </View>
             <Edit2 size={16} color="#666" />
@@ -72,12 +82,12 @@ export default function ProfileScreen() {
           <View style={styles.statItem}>
             <Smartphone size={20} color="#4A90E2" />
             <Text style={styles.statLabel}>Total Devices: </Text>
-            <Text style={styles.statHighlight}>23</Text>
+            <Text style={styles.statHighlight}>{userInfo.iotcount}</Text>
           </View>
           <View style={styles.statItem}>
             <Smartphone size={20} color="#4A90E2" />
             <Text style={styles.statLabel}>Billing Class: </Text>
-            <Text style={styles.statHighlight}>None</Text>
+            <Text style={styles.statHighlight}>{userInfo.usrCompID}</Text>
           </View>
         </View>
 
@@ -179,7 +189,7 @@ const styles = StyleSheet.create({
   statItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginVertical: 10,
   },
   statLabel: {
     color: '#999',
