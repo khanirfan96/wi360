@@ -30,19 +30,18 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
-      <Drawer
-        screenOptions={({ route }) => ({
-          header: () => <Header />,
-          headerShown: route.name !== 'signin',
-          drawerStyle: {
-            backgroundColor: '#1a1a1a',
-            width: 280,
-          },
-        })}
-        drawerContent={(props) => <CustomDrawerContent {...props} />}
-      >
-      </Drawer>
+        <Drawer
+          screenOptions={({ route }) => ({
+            header: () => <Header />,
+            headerShown: route.name !== 'signin',
+            drawerStyle: {
+              backgroundColor: '#1a1a1a',
+              width: 280,
+            },
+          })}
+          drawerContent={(props) => <CustomDrawerContent {...props} />}
+        >
+        </Drawer>
     </AuthProvider>
-
   );
 }

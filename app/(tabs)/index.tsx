@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal } from 'react-native';
 import { MessageSquare, Smartphone, X, ArrowLeft, Search } from 'lucide-react-native';
 import BackButton from '../components/BackButton';
 import TabBar from '../components/TabBar';
+// import { useSocket } from '../context/WebSocketContext'
+import socket from '../context/WebSocketContext';
 
 // Add these interfaces near the top of the file
 interface Message {
@@ -20,6 +22,88 @@ interface MessageListProps {
 
 export default function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);
+  // const { isConnected, sendMessage, socket, connect } = useSocket();
+  const [connectionAttempts, setConnectionAttempts] = useState(0);
+  const [message, setMessage] = useState('');
+
+  console.log(message, 'fafaf')
+
+  // Enhanced connection monitoring
+  // useEffect(() => {
+  //   if (!isConnected && connectionAttempts < 10) {
+  //     console.log(`Connection attempt ${connectionAttempts + 1}`);
+  //     connect();
+  //     setConnectionAttempts(prev => prev + 1);
+  //   }
+  // }, [isConnected, connectionAttempts, connect]);
+
+  // useEffect(() => {
+  //   if (socket) {
+  //     console.log('Setting up socket listeners...');
+      
+  //     // Add your specific event listeners
+  //     socket.on('sid=VznPfRZ_AA8CjKTWAo3W', (data:any) => {
+  //       console.log('Received specific event:', data);
+  //     });
+
+  //     return () => {
+  //       console.log('Cleaning up socket listeners...');
+  //       socket.off('specific_event');
+  //     };
+  //   }
+  // }, [socket]);
+
+  useEffect(() => {
+    // Connect to socket
+    socket.on('connect', () => {
+      console.log('Connected to server');
+    });
+
+    // Listen for messages from the server
+    socket.on('sid=VznPfRZ_AA8CjKTWAo3W', (data:any) => {
+      console.log('Message received:', data);
+      setMessage(data);
+    });
+
+    // Cleanup on unmount
+    return () => {
+      socket.off('message');
+      socket.disconnect();
+    };
+  }, []);
+
+  // useEffect(() => {
+  //   if (!isConnected) {
+  //     connect();
+  //   }
+
+  //   if (socket) {
+  //     // Log current connection details
+  //     console.log('Current connection details:', {
+  //       isConnected,
+  //       socketId: socket.id,
+  //       transport: socket.io?.engine?.transport?.name,
+  //     });
+  //   }
+  // }, [isConnected, socket]);
+
+  // Test function to verify socket connection
+  // const testConnection = () => {
+  //   console.log('Current socket status:', {
+  //     isConnected,
+  //     socketId: socket?.id,
+  //   });
+  //   if (isConnected) {
+  //     sendMessage('sid', { message: 'Test message' });
+  //   }
+  // };
+
+  // const handleSendMessage = () => {
+  //   // The SID will be automatically included in the payload
+  //   sendMessage('sid', {
+  //     someData: 'gFX4P6g9HDgcYaGgAPUP'
+  //   });
+  // };
 
   const messages = [
     {
@@ -50,9 +134,31 @@ export default function HomeScreen() {
     </View>
   );
 
+  // Add this to your JSX to show connection status
+  // const renderConnectionStatus = () => (
+  //   <View style={styles.connectionStatus}>
+  //     <Text style={[styles.statusText, { color: isConnected ? '#00ff00' : '#ff0000' }]}>
+  //       {isConnected ? 'Connected' : 'Disconnected'}
+  //     </Text>
+  //     <TouchableOpacity 
+  //       onPress={() => {
+  //         console.log('Manual connection attempt');
+  //         setConnectionAttempts(0);
+  //       }}
+  //       style={styles.reconnectButton}
+  //     >
+  //       <Text style={styles.buttonText}>Reconnect</Text>
+  //     </TouchableOpacity>
+  //   </View>
+  // );
+
   return (
     <View style={styles.container}>
+      {/* {renderConnectionStatus()} */}
       <ScrollView style={styles.scrollContainer}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Message: {message}</Text>
+    </View>
         <Text style={styles.sectionTitle}>Overview</Text>
         <View style={styles.overviewContainer}>
           <View style={styles.statsCard}>
@@ -72,7 +178,7 @@ export default function HomeScreen() {
         <View style={styles.mapSection}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Device map</Text>
-            <TouchableOpacity>
+            <TouchableOpacity >
               <Text style={styles.linkText}>Location →</Text>
             </TouchableOpacity>
           </View>
@@ -285,5 +391,27 @@ const styles = StyleSheet.create({
   modalContent: {
     flex: 1,
     backgroundColor: '#1A1A1A',
+  },
+  connectionStatus: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor: '#252525',
+    marginBottom: 10,
+    borderRadius: 8,
+  },
+  statusText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  reconnectButton: {
+    backgroundColor: '#0066FF',
+    padding: 8,
+    borderRadius: 4,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 12,
   },
 });

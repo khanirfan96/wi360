@@ -1,5 +1,4 @@
 import { Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
 import { Mail } from 'lucide-react-native';
 import React, { useState } from 'react';
 import {
@@ -25,7 +24,8 @@ export default function SignIn() {
             Toast.show({type: 'error', text1: 'Error', text2: 'Please enter both email and password'});
             return;
         }
-        await login(email, password);   
+        await login(email, password); 
+        
     };
 
     return (
